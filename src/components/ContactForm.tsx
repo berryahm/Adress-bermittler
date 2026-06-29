@@ -28,6 +28,36 @@ export function ContactForm({ referrer }: Props) {
     >
       <input type="hidden" name="ref" value={referrer ?? ""} />
 
+      <div className="sm:col-span-2">
+        <label
+          htmlFor="gender"
+          className="block text-sm font-semibold text-brand-900"
+        >
+          Anrede<span className="text-brand-600"> *</span>
+        </label>
+        <select
+          id="gender"
+          name="gender"
+          required
+          defaultValue=""
+          aria-invalid={errs.gender ? true : undefined}
+          className={`mt-1 block h-11 w-full rounded-md border bg-white px-3 text-base text-brand-900 focus:border-brand-700 ${
+            errs.gender ? "border-red-500" : "border-brand-100"
+          }`}
+        >
+          <option value="" disabled>
+            Bitte wählen …
+          </option>
+          <option value="männlich">Herr</option>
+          <option value="weiblich">Frau</option>
+        </select>
+        {errs.gender && (
+          <p className="mt-1 text-sm text-red-700" role="alert">
+            {errs.gender}
+          </p>
+        )}
+      </div>
+
       <Field
         id="firstName"
         label="Vorname"

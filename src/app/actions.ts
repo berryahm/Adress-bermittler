@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { INSURANCE_CATEGORIES, type InsuranceCategoryId } from "@/lib/constants";
+import { createEcoreLead, EcoreError } from "@/lib/ecore";
 
 export type ContactFormState = {
   ok: boolean;
@@ -10,6 +11,7 @@ export type ContactFormState = {
 };
 
 type ContactField =
+  | "gender"
   | "firstName"
   | "lastName"
   | "street"
@@ -60,6 +62,7 @@ export async function submitContactRequest(
   _prev: ContactFormState,
   formData: FormData,
 ): Promise<ContactFormState> {
+  const gender = asString(formData.get("gender"));
   const firstName = asString(formData.get("firstName"));
   const lastName = asString(formData.get("lastName"));
   const street = asString(formData.get("street"));
@@ -78,6 +81,8 @@ export async function submitContactRequest(
 
   const fieldErrors: ContactFormState["fieldErrors"] = {};
 
+  if (gender !== "männlich" && gender !== "weiblich")
+    fieldErrors.gender = "Bitte Anrede auswählen.";
   if (firstName.length < 2) fieldErrors.firstName = "Bitte Vorname angeben.";
   if (lastName.length < 2) fieldErrors.lastName = "Bitte Nachname angeben.";
   if (street.length < 3) fieldErrors.street = "Bitte Strasse und Nr. angeben.";
@@ -101,19 +106,51 @@ export async function submitContactRequest(
     return { ok: false, fieldErrors };
   }
 
-  const lead = {
-    receivedAt: new Date().toISOString(),
-    referrer: ref || null,
-    contact: { firstName, lastName, street, zip, city, phone, email },
-    birthDate,
-    interestedIn: categories,
-    consent: true,
-  };
+  // Strasse/Nr. aufsplitten: trailing Hausnummer ins addressNo-Feld.
+  const streetMatch = street.match(/^(.*?)[\s,]+(\d+\s*[a-zA-Z]?)$/);
+  const addressStreet = streetMatch ? streetMatch[1].trim() : street;
+  const addressNo = streetMatch ? streetMatch[2].trim() : undefined;
 
-  // TODO: persistente Speicherung / E-Mail / CRM-Anbindung.
-  // Aktuell wird der Lead nur ins Server-Log geschrieben.
-  // Einbindungspunkt z. B. für Resend / SMTP / Webhook.
-  console.info("[finsion-lead]", JSON.stringify(lead));
+  const interests = categories
+    .map((id) => INSURANCE_CATEGORIES.find((c) => c.id === id)?.label ?? id)
+    .join(", ");
+  const note = `Adressübermittler-Landingpage – Interesse: ${interests}.`;
+
+  try {
+    await createEcoreLead({
+      customerType: "Privat",
+      gender: gender as "männlich" | "weiblich",
+      firstName,
+      lastName,
+      dob: birthDate,
+      email,
+      phone1: phone,
+      addressStreet,
+      addressNo,
+      addressZip: zip,
+      addressCity: city,
+      source: "Kooperationspartner",
+      sourceLabel: ref || undefined,
+      recommendedBy: ref || undefined,
+      advisorNo: process.env.ECORE_ADVISOR_NO || undefined,
+      note,
+    });
+  } catch (err) {
+    if (err instanceof EcoreError && err.fieldErrors) {
+      // CRM-Validierungsfehler – generisch zurückmelden, ohne CRM-Interna.
+      return {
+        ok: false,
+        formError:
+          "Ihre Angaben konnten nicht übermittelt werden. Bitte prüfen Sie Name, E-Mail und Telefon.",
+      };
+    }
+    console.error("[finsion-lead] CRM-Übermittlung fehlgeschlagen:", err);
+    return {
+      ok: false,
+      formError:
+        "Leider ist ein technischer Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
+    };
+  }
 
   redirect("/danke");
 }
