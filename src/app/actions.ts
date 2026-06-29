@@ -20,6 +20,7 @@ type ContactField =
   | "phone"
   | "email"
   | "birthDate"
+  | "vermittler"
   | "categories"
   | "consent";
 
@@ -73,6 +74,7 @@ export async function submitContactRequest(
   const birthDate = asString(formData.get("birthDate"));
   const consent = formData.get("consent") === "on";
   const ref = asString(formData.get("ref"));
+  const vermittler = asString(formData.get("vermittler")).slice(0, 120);
 
   const categoriesRaw = formData.getAll("categories").map((v) => String(v));
   const categories = categoriesRaw.filter((c): c is InsuranceCategoryId =>
@@ -116,6 +118,8 @@ export async function submitContactRequest(
     .join(", ");
   const note = `Adressübermittler-Landingpage – Interesse: ${interests}.`;
 
+  const recommendedBy = vermittler || ref || undefined;
+
   try {
     await createEcoreLead({
       customerType: "Privat",
@@ -130,8 +134,8 @@ export async function submitContactRequest(
       addressZip: zip,
       addressCity: city,
       source: "Kooperationspartner",
-      sourceLabel: ref || undefined,
-      recommendedBy: ref || undefined,
+      sourceLabel: recommendedBy,
+      recommendedBy,
       advisorNo: process.env.ECORE_ADVISOR_NO || undefined,
       note,
     });

@@ -28,6 +28,16 @@ export function ContactForm({ referrer }: Props) {
     >
       <input type="hidden" name="ref" value={referrer ?? ""} />
 
+      <Field
+        id="vermittler"
+        label="Vermittelt durch"
+        defaultValue={referrer ?? ""}
+        placeholder="Name des Adressübermittlers"
+        hint="Bitte vom Adressübermittler ausfüllen lassen."
+        className="sm:col-span-2"
+        error={errs.vermittler}
+      />
+
       <div className="sm:col-span-2">
         <label
           htmlFor="gender"
@@ -223,6 +233,7 @@ type FieldProps = {
   placeholder?: string;
   pattern?: string;
   maxLength?: number;
+  defaultValue?: string;
   hint?: string;
   error?: string;
   className?: string;
@@ -238,6 +249,7 @@ function Field({
   placeholder,
   pattern,
   maxLength,
+  defaultValue,
   hint,
   error,
   className,
@@ -261,6 +273,7 @@ function Field({
         placeholder={placeholder}
         pattern={pattern}
         maxLength={maxLength}
+        defaultValue={defaultValue}
         aria-invalid={error ? true : undefined}
         aria-describedby={
           error ? `${id}-error` : hint ? `${id}-hint` : undefined
