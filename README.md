@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Finsion – Landingpage für Adressübermittler
 
-## Getting Started
+Statische Landingpage (Next.js 16 + TypeScript + Tailwind v4), auf die potenzielle
+Versicherungs­interessenten via Flyer-QR-Code oder von der Webseite eines
+Adress­übermittlers gelangen. Sie hinterlassen über das Kontaktformular die im
+Konzept "Adressvermittlung (abschliessend)" definierten Datenfelder. Finsion
+kontaktiert sie anschliessend innert 7 Kalender­tagen (gemäss Vereinbarung
+Ziff. 4.1).
 
-First, run the development server:
+## Erfasste Datenfelder (abschliessend)
+
+- Kontaktangaben: Vorname, Nachname, Strasse/Nr., PLZ, Ort, Telefon, E-Mail
+- Geburtsdatum (zur Identifikation)
+- Versicherungsbereich(e), für die sich die Person interessiert
+- Einwilligung "Kunde wünscht kontaktiert zu werden"
+
+Keine Freitext-Felder, keine Gesundheits- oder Vertragsdaten – konform zum
+übergebenen Konzept.
+
+## Tracking des Adressübermittlers
+
+URL-Parameter `?ref=<Vertriebspartner-Nr.>` wird als Hidden Field mitgesendet
+und im Server-Log unter dem Schlüssel `referrer` mit gespeichert. Beispiel:
+
+```
+https://landing.finsion.ch/?ref=AU-12345
+```
+
+## Lokale Entwicklung
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# → http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Anbindung an Mail / CRM
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Aktuell werden eingehende Leads in `src/app/actions.ts` per `console.info`
+geloggt (Eintrag `[finsion-lead] {...}`). Für die Produktion bitte dort eine
+Anbindung an Resend / SMTP / Webhook / CRM ergänzen.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Rechtliches
 
-## Learn More
+- `/datenschutz` – Datenschutzerklärung
+- `/impressum` – Impressum
 
-To learn more about Next.js, take a look at the following resources:
+Beide Seiten enthalten Platzhalter-Texte, die vor Live-Gang juristisch
+überprüft werden sollten.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Standard Next.js, deploybar auf Vercel ohne weitere Konfiguration.
