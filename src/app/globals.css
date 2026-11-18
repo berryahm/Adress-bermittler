@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* gira-gmbh/ is a separate app – keep its classes out of this bundle. */
+@source not "../../gira-gmbh";
+
 @theme {
   --color-brand-950: #0a1733;
   --color-brand-900: #0e1f3d;

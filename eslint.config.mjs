@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Separate Next.js app (Gira GmbH website) with its own config.
+    "gira-gmbh/**",
   ]),
 ]);
 
