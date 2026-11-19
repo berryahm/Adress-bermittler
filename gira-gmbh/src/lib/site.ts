@@ -18,7 +18,7 @@ export const site = {
     zip: "0000", // Platzhalter
     city: "Musterort", // Platzhalter
     country: "Schweiz",
-    phone: "+41 00 000 00 00", // Platzhalter
+    phone: "+41 76 804 21 91",
     email: "info@ihre-domain.ch", // Platzhalter
   },
 

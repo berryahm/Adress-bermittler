@@ -57,7 +57,7 @@ export function Hero() {
         </div>
         <figcaption className="eyebrow mt-3 flex flex-col gap-1 sm:flex-row sm:justify-between sm:gap-4">
           <span>Neubau, Münchenstein BL</span>
-          <span>Aussenwärmedämmung · 09/2024</span>
+          <span>Aussenwärmedämmung</span>
         </figcaption>
       </figure>
     </section>

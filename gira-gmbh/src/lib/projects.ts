@@ -19,6 +19,8 @@ export type Photo = {
   src: StaticImageData;
   alt: string;
   caption?: string;
+  /** Ort der Aufnahme, z. B. «Grenchen SO» */
+  place?: string;
   /** CSS object-position, wenn das Bild zugeschnitten dargestellt wird. */
   position?: string;
 };
@@ -28,8 +30,6 @@ export type Project = {
   title: string;
   place: string;
   canton: Canton;
-  /** Anzeige im Format MM/JJJJ */
-  date: string;
   photos: Photo[];
 };
 
@@ -69,72 +69,86 @@ export const photos = {
     src: benkenDetail,
     alt: "Mitarbeiter setzt Mosaik in Kupfertönen an einer Gebäudeecke",
     caption: "Verlegung von Hand",
+    place: "Benken ZH",
   },
   benkenNachher: {
     src: benkenNachher,
     alt: "Fertige Mosaikfassade an Garage und Eingang, ein Mitarbeiter reinigt den Vorplatz",
-    caption: "Abschluss und Reinigung, 18.09.2024",
+    caption: "Abschluss und Reinigung",
+    place: "Benken ZH",
   },
   benkenVerlegt: {
     src: benkenVerlegt,
     alt: "Frisch verlegte Mosaikfassade mit Garage, Eingangstür und Fenster",
-    caption: "Mosaik verlegt, 10.09.2024",
+    caption: "Mosaik verlegt",
+    place: "Benken ZH",
   },
   benkenVorher: {
     src: benkenVorher,
     alt: "Sichtbetonfront mit Garage und Eingang vor Beginn der Arbeiten, Fenster abgedeckt",
-    caption: "Ausgangslage, 02.09.2024",
+    caption: "Ausgangslage",
+    place: "Benken ZH",
   },
   dottikon: {
     src: dottikon,
     alt: "XPS-Dämmplatten im Sockelbereich eines Holzbaus",
-    caption: "Sockeldämmung, 20.09.2024",
+    caption: "Sockeldämmung mit XPS-Platten",
+    place: "Dottikon AG",
   },
   grenchen1: {
     src: grenchen1,
     alt: "Eingerüsteter Neubau mit Dämmplatten an der Fassade",
-    caption: "Aussenwärmedämmung, 16.09.2024",
+    caption: "Aussenwärmedämmung",
+    place: "Grenchen SO",
   },
   grenchen2: {
     src: grenchen2,
     alt: "Neubau mit Gerüst, die Fassade ist vollständig mit Dämmplatten belegt",
-    caption: "Aussenwärmedämmung, 16.09.2024",
+    caption: "Gesamtansicht",
+    place: "Grenchen SO",
   },
   muenchensteinDaemmung: {
     src: muenchensteinDaemmung,
     alt: "Eingerüsteter Neubau in der Abendsonne während der Aussenwärmedämmung",
-    caption: "Aussenwärmedämmung, 03.09.2024",
+    caption: "Während der Dämmarbeiten",
+    place: "Münchenstein BL",
   },
   muenchensteinFassade: {
     src: muenchensteinFassade,
     alt: "Neubau mit fertig verputzter, heller Fassade und Gerüst",
-    caption: "Fassadenputz, 11.10.2024",
+    caption: "Fassade fertig verputzt",
+    place: "Münchenstein BL",
   },
   oberkirch: {
     src: oberkirch,
     alt: "Frisch verputzter, weisser Sockel unter einer Metallfassade",
-    caption: "Sockelputz, 22.03.2025",
+    caption: "Verputzter Sockel unter Metallfassade",
+    place: "Oberkirch LU",
     position: "85% 50%",
   },
   rueschlikon: {
     src: rueschlikon,
     alt: "Eingerüstetes Wohnhaus mit Satteldach während der Aussenwärmedämmung",
-    caption: "Aussenwärmedämmung, 12.10.2026",
+    caption: "Aussenwärmedämmung",
+    place: "Rüschlikon ZH",
   },
   triengen1: {
     src: triengen1,
     alt: "Eingerüstetes Gebäude mit frisch verputzter Fassade, davor ein Mitarbeiter",
-    caption: "Fassadenputz, 14.09.2024",
+    caption: "Giebelseite",
+    place: "Triengen LU",
   },
   triengen2: {
     src: triengen2,
     alt: "Seitenansicht eines eingerüsteten Gebäudes mit verputzter Fassade",
-    caption: "Fassadenputz, 14.09.2024",
+    caption: "Längsseite",
+    place: "Triengen LU",
   },
   widen: {
     src: widen,
     alt: "Frisch gestrichener Innenraum mit abgedecktem Boden",
-    caption: "Spachtel- und Malerarbeiten, 20.11.2024",
+    caption: "Spachtel- und Malerarbeiten",
+    place: "Widen AG",
   },
 } satisfies Record<string, Photo>;
 
@@ -144,7 +158,6 @@ export const projects: Project[] = [
     title: "Mosaikfassade",
     place: "Benken",
     canton: "ZH",
-    date: "09/2024",
     photos: [photos.benkenNachher, photos.benkenVorher, photos.benkenDetail, photos.benkenVerlegt],
   },
   {
@@ -152,7 +165,6 @@ export const projects: Project[] = [
     title: "Aussenwärmedämmung, Neubau",
     place: "Grenchen",
     canton: "SO",
-    date: "09/2024",
     photos: [photos.grenchen1, photos.grenchen2],
   },
   {
@@ -160,7 +172,6 @@ export const projects: Project[] = [
     title: "Dämmung und Fassadenputz, Neubau",
     place: "Münchenstein",
     canton: "BL",
-    date: "10/2024",
     photos: [photos.muenchensteinFassade, photos.muenchensteinDaemmung],
   },
   {
@@ -168,7 +179,6 @@ export const projects: Project[] = [
     title: "Fassadenputz",
     place: "Triengen",
     canton: "LU",
-    date: "09/2024",
     photos: [photos.triengen1, photos.triengen2],
   },
   {
@@ -176,7 +186,6 @@ export const projects: Project[] = [
     title: "Aussenwärmedämmung",
     place: "Rüschlikon",
     canton: "ZH",
-    date: "10/2026",
     photos: [photos.rueschlikon],
   },
   {
@@ -184,7 +193,6 @@ export const projects: Project[] = [
     title: "Sockeldämmung",
     place: "Dottikon",
     canton: "AG",
-    date: "09/2024",
     photos: [photos.dottikon],
   },
   {
@@ -192,7 +200,6 @@ export const projects: Project[] = [
     title: "Sockelputz",
     place: "Oberkirch",
     canton: "LU",
-    date: "03/2025",
     photos: [photos.oberkirch],
   },
   {
@@ -200,7 +207,6 @@ export const projects: Project[] = [
     title: "Malerarbeiten innen",
     place: "Widen",
     canton: "AG",
-    date: "11/2024",
     photos: [photos.widen],
   },
 ];

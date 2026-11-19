@@ -74,7 +74,7 @@ export function Services() {
               ))}
             </div>
             <p className="eyebrow mt-3 flex justify-between gap-4">
-              <span>{current.photo.caption}</span>
+              <span>{current.photo.place}</span>
               <span>
                 {String(active + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}
               </span>

@@ -117,7 +117,7 @@ export function Projects() {
                 <span className="mt-4 flex items-start justify-between gap-6">
                   <span className="block">
                     <span className="eyebrow block">
-                      {project.place} {project.canton} · {project.date}
+                      {project.place} {project.canton}
                     </span>
                     <span className="mt-2 block text-xl leading-snug font-medium tracking-[-0.02em] md:text-[1.375rem]">
                       {project.title}
@@ -143,7 +143,7 @@ export function Projects() {
             <div className="flex items-start justify-between gap-6 px-5 pt-5 md:px-8 md:pt-7">
               <div>
                 <p className="eyebrow text-paper/55">
-                  {view.project.place} {view.project.canton} · {view.project.date}
+                  {view.project.place} {view.project.canton}
                 </p>
                 <p id="lightbox-title" className="mt-2 text-xl font-medium tracking-[-0.02em] md:text-2xl">
                   {view.project.title}

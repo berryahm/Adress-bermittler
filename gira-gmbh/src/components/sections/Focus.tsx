@@ -3,7 +3,7 @@ import Image from "next/image";
 import { SectionHeading } from "@/components/SectionHeading";
 import { photos, type Photo } from "@/lib/projects";
 
-function Stage({ photo, label, date, position }: { photo: Photo; label: string; date: string; position?: string }) {
+function Stage({ photo, label, position }: { photo: Photo; label: string; position?: string }) {
   return (
     <figure>
       <div className="relative aspect-[4/3] overflow-hidden bg-paper-2">
@@ -20,10 +20,7 @@ function Stage({ photo, label, date, position }: { photo: Photo; label: string; 
           {label}
         </span>
       </div>
-      <figcaption className="eyebrow mt-3 flex justify-between gap-4">
-        <span>{photo.caption?.split(",")[0]}</span>
-        <span>{date}</span>
-      </figcaption>
+      <figcaption className="eyebrow mt-3">{photo.caption}</figcaption>
     </figure>
   );
 }
@@ -34,8 +31,8 @@ export function Focus() {
       <SectionHeading index="03" label="Im Fokus" id="fokus-title" title="Vom Sichtbeton zur Mosaikfassade." />
 
       <div className="mt-12 grid gap-10 md:mt-16 md:grid-cols-2 md:gap-6">
-        <Stage photo={photos.benkenVorher} label="Vorher" date="02.09.2024" position="30% 50%" />
-        <Stage photo={photos.benkenNachher} label="Nachher" date="18.09.2024" />
+        <Stage photo={photos.benkenVorher} label="Vorher" position="30% 50%" />
+        <Stage photo={photos.benkenNachher} label="Nachher" />
       </div>
 
       <div className="mt-14 grid gap-10 md:mt-20 md:grid-cols-12 md:gap-6">
@@ -68,8 +65,8 @@ export function Focus() {
               <dd className="mt-2">Benken ZH</dd>
             </div>
             <div className="border-l border-line px-4 py-5">
-              <dt className="eyebrow">Zeitraum</dt>
-              <dd className="mt-2">Sept. 2024</dd>
+              <dt className="eyebrow">Untergrund</dt>
+              <dd className="mt-2">Sichtbeton</dd>
             </div>
             <div className="border-l border-line py-5 pl-4">
               <dt className="eyebrow">Leistung</dt>
